@@ -13,7 +13,15 @@ enum AudioCaptureError: Error, Equatable {
 }
 
 @MainActor
-final class AudioCaptureController {
+protocol AudioCapturing: AnyObject {
+    var isRecording: Bool { get }
+
+    func start() async throws
+    func stop() throws -> RecordedAudio
+}
+
+@MainActor
+final class AudioCaptureController: AudioCapturing {
     private var recorder: AVAudioRecorder?
     private var recordingURL: URL?
 

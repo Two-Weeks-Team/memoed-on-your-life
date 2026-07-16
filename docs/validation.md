@@ -5,8 +5,8 @@ This document separates automated evidence from manual, user-visible device evid
 ## Automated
 
 - `xcodegen generate` produces a byte-identical Xcode project on consecutive runs.
-- The iPhone 17 simulator on iOS 26.5 passes eight unit tests, including a real Apple Vision OCR fixture with normalized text regions and an invariant that rejects empty audio transcripts.
-- Two simulator UI tests cover the Demo Data challenge flow and the permission-light evidence library.
+- The iPhone 17 simulator on iOS 26.5 passes eleven unit tests, including real Apple Vision OCR, normalized text regions, durable source round trips, visible failure mappings, and an invariant that rejects empty audio transcripts.
+- Three simulator UI tests cover the Demo Data challenge flow, the permission-light evidence library, and a synthetic photo selected through the system Photos picker and indexed by Apple Vision.
 - Swift warnings are treated as errors during the verification build.
 - A repository cleanliness scan rejects secrets, local environment files, and prohibited provenance language.
 

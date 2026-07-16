@@ -53,6 +53,55 @@ final class MemoedOnYourLifeUITests: XCTestCase {
         attachScreenshot(of: app, named: "05-evidence-library")
     }
 
+    func testSimulatorImportsPhotoThroughSystemPicker() throws {
+#if targetEnvironment(simulator)
+        let app = XCUIApplication()
+        app.launchArguments = ["--evidence-tab"]
+        app.launch()
+
+        let importPhoto = app.buttons["import-photo"]
+        XCTAssertTrue(importPhoto.waitForExistence(timeout: 5))
+        importPhoto.tap()
+
+        let onboardingClose = app.buttons.matching(
+            NSPredicate(format: "label == %@ OR label == %@", "Close", "닫기")
+        ).firstMatch
+        if onboardingClose.waitForExistence(timeout: 3) {
+            onboardingClose.tap()
+        }
+
+        let photo = app.images.matching(identifier: "PXGGridLayout-Info").firstMatch
+        XCTAssertTrue(
+            photo.waitForExistence(timeout: 10),
+            "The validation harness must seed a synthetic photo into the simulator library."
+        )
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.16, dy: 0.25)).tap()
+
+        let operationTitle = app.staticTexts["library-operation-title"]
+        let completed = XCTNSPredicateExpectation(
+            predicate: NSPredicate { _, _ in
+                operationTitle.exists
+                    && (operationTitle.label.contains("완료")
+                        || operationTitle.label.localizedCaseInsensitiveContains("indexed"))
+            },
+            object: nil
+        )
+        XCTAssertEqual(
+            XCTWaiter.wait(for: [completed], timeout: 30),
+            .completed,
+            "The selected photo should be copied, indexed with Vision, and shown as complete."
+        )
+
+        let photoRow = app.buttons["evidence-row-photo"].firstMatch
+        XCTAssertTrue(photoRow.waitForExistence(timeout: 5))
+        photoRow.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["ocr-text-block"].waitForExistence(timeout: 5))
+        attachScreenshot(of: app, named: "06-simulator-photo-ocr")
+#else
+        throw XCTSkip("The simulator photo-library fixture is injected by the validation harness.")
+#endif
+    }
+
     func testPhysicalDeviceRecordsAndIndexesTimedSpeech() throws {
 #if targetEnvironment(simulator)
         throw XCTSkip("Microphone capture requires a physical iPhone.")
@@ -70,7 +119,7 @@ final class MemoedOnYourLifeUITests: XCTestCase {
         let operationTitle = app.staticTexts["library-operation-title"]
         XCTAssertTrue(operationTitle.waitForExistence(timeout: 5))
         XCTAssertTrue(operationTitle.label.contains("녹음 중"))
-        attachScreenshot(of: app, named: "06-physical-recording")
+        attachScreenshot(of: app, named: "07-physical-recording")
         print("MEMOED_PHYSICAL_RECORDING_READY")
 
         Thread.sleep(forTimeInterval: 25)
@@ -107,7 +156,7 @@ final class MemoedOnYourLifeUITests: XCTestCase {
             transcriptSpan.waitForExistence(timeout: 10),
             "The physical recording should produce a finalized, time-indexed transcript span."
         )
-        attachScreenshot(of: app, named: "07-physical-timed-transcript")
+        attachScreenshot(of: app, named: "08-physical-timed-transcript")
 #endif
     }
 
@@ -137,7 +186,7 @@ final class MemoedOnYourLifeUITests: XCTestCase {
             app.descendants(matching: .any)["audio-transcript-span"]
                 .waitForExistence(timeout: 10)
         )
-        attachScreenshot(of: app, named: "08-physical-persisted-transcript")
+        attachScreenshot(of: app, named: "09-physical-persisted-transcript")
 #endif
     }
 

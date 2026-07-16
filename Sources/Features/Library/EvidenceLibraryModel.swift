@@ -16,7 +16,7 @@ final class EvidenceLibraryModel {
 
     private let store: LocalEvidenceStore
     private let indexer: EvidenceIndexer
-    private let recorder: AudioCaptureController
+    private let recorder: any AudioCapturing
 
     var assets: [CapturedEvidence] = []
     var operation: Operation = .idle
@@ -29,7 +29,7 @@ final class EvidenceLibraryModel {
         store: LocalEvidenceStore = LocalEvidenceStore(),
         photoRecognizer: any PhotoTextRecognizing = AppleVisionTextRecognizer(),
         audioTranscriber: any AudioTranscribing = AppleSpeechFileTranscriber(),
-        recorder: AudioCaptureController = AudioCaptureController()
+        recorder: any AudioCapturing = AudioCaptureController()
     ) {
         self.store = store
         self.indexer = EvidenceIndexer(

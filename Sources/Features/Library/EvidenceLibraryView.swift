@@ -307,6 +307,7 @@ private struct CapturedEvidenceDetailView: View {
                                 .foregroundStyle(.secondary)
                         }
                         .cardSurface()
+                        .accessibilityIdentifier("ocr-text-block")
                     }
                 } else {
                     ForEach(asset.transcriptSpans) { span in

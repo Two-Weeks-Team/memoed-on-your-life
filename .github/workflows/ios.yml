@@ -39,6 +39,12 @@ jobs:
           xcodegen generate
           git diff --exit-code -- MemoedOnYourLife.xcodeproj
 
+      - name: Seed simulator photo fixture
+        run: |
+          xcrun simctl boot "iPhone 17" || true
+          xcrun simctl bootstatus "iPhone 17" -b
+          xcrun simctl addmedia "iPhone 17" docs/evidence/phase2/iphone13-timed-transcript.png
+
       - name: Build and test
         run: |
           set -o pipefail
