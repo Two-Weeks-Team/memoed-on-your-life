@@ -22,8 +22,17 @@ jobs:
       - name: Select Xcode 26.6
         run: sudo xcode-select -s /Applications/Xcode_26.6.app/Contents/Developer
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
+      - name: Install pinned XcodeGen
+        env:
+          XCODEGEN_URL: https://github.com/yonaskolb/XcodeGen/releases/download/2.44.1/xcodegen.zip
+          XCODEGEN_SHA256: a2e905fb68446e9bb4008cdfe2e13e3f176d0cbcca828b71770f8e53fca91b73
+        run: |
+          curl --fail --silent --show-error --location "$XCODEGEN_URL" \
+            --output "$RUNNER_TEMP/xcodegen.zip"
+          echo "$XCODEGEN_SHA256  $RUNNER_TEMP/xcodegen.zip" | shasum -a 256 --check
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
+          sudo "$RUNNER_TEMP/xcodegen/install.sh"
+          xcodegen --version
 
       - name: Generate project
         run: |
