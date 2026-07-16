@@ -6,7 +6,8 @@ This document separates automated evidence from manual, user-visible device evid
 
 - `xcodegen generate` produces a byte-identical Xcode project on consecutive runs.
 - The iPhone 17 simulator on iOS 26.5 passes thirty-five unit tests, including real Apple Vision OCR, normalized text regions, backward-compatible durable source round trips, visible failure mappings, unified retrieval, a fully evaluated hero fixture, false-citation rejection, unresolved correction rejection, correction-cycle handling, an invariant that rejects empty audio transcripts, relay status mapping, strict response decoding, independent request/response size bounds, and explicit synthesis-origin labeling.
-- Three simulator UI tests cover the Demo Data challenge flow, the permission-light evidence library, and a synthetic photo selected through the system Photos picker and indexed by Apple Vision.
+- Four simulator UI tests cover the Demo Data challenge flow, the permission-light evidence library, a synthetic photo selected through the system Photos picker and indexed by Apple Vision, and an English Accessibility XXXL walkthrough.
+- CI reruns the accessibility walkthrough with the simulator's system content size set to Accessibility XXXL and Increase Contrast enabled. `ViewThatFits` converts the Challenge comparison from horizontal to vertical without clipping or hiding exact-source navigation.
 - Twenty-one Cloudflare Workers tests validate exact relay contracts, the zero-budget upstream block, strict Structured Outputs fixtures, one-retry bounds, 400/401/429/500/incomplete/refusal/timeout/truncation/model-mismatch handling, evidence-ID integrity, atomic spend reservations, per-flow limits, and circuit breaking.
 - Wrangler type generation and a deployment dry run succeed without deploying a Worker or contacting OpenAI.
 - Swift warnings are treated as errors during the verification build.
@@ -32,6 +33,8 @@ The physical-device XCTest runner also passed these Phase 2 checks:
 
 Phase 4 additionally installed a newly signed build and ran the complete Demo flow on the connected iPhone 13. The physical-device accessibility tree found the independent `answer-origin` element, the test passed with no skips, and visual inspection confirmed that **기기 내 결과** appears before the answer card without obscuring the evidence hierarchy.
 
+Phase 5 reran the signed physical-device flow after adding the explicit Why card and Before/After Challenge comparison. The device test passed with no skip; frame-level UI assertions and visual inspection confirmed that the floating tab bar no longer covers the privacy pledge.
+
 The system Photos picker was opened on the physical device without selecting a personal image. [Apple documents](https://support.apple.com/en-us/120421) that the iPhone camera and microphone are unavailable while iPhone Mirroring is active, so microphone capture was driven by physical-device XCUITest after Mirroring was closed.
 
 Evidence:
@@ -40,6 +43,8 @@ Evidence:
 - [Timed Speech transcript](evidence/phase2/iphone13-timed-transcript.png)
 - [Transcript restored after relaunch](evidence/phase2/iphone13-persisted-transcript.png)
 - [On-device synthesis origin on iPhone 13](evidence/phase4/iphone13-on-device-origin.png)
+- [Accessibility XXXL Challenge comparison](evidence/phase5/simulator-xxxl-challenge.png)
+- [iPhone 13 Why and Challenge comparison](evidence/phase5/iphone13-why-challenge.png)
 
 ## Network and cost
 

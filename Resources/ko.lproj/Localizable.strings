@@ -14,6 +14,8 @@
 "answer.prepare" = "유제품 없는 케이크 준비";
 "answer.changed.title" = "변경 전";
 "answer.changed.value" = "목요일 · 오후 7:00";
+"answer.why.title" = "왜 현재 정보인가요?";
+"answer.why.detail" = "초대장이 목요일을 금요일로 명시적으로 정정했고, 최신 오디오도 그 정정을 따르라고 말합니다. 더 새로운 반대 근거는 없습니다.";
 "sources.title" = "정확한 근거";
 "source.invite.title" = "정정 초대장";
 "source.invite.detail" = "이미지 자르기 · 정정 문구";
@@ -37,6 +39,10 @@
 "challenge.step.verify" = "모든 근거 연결 확인 중";
 "challenge.progress.label" = "Challenge 진행 상태";
 "challenge.result" = "유지 — 명시적 정정이 있고 더 새로운 반대 근거가 없습니다.";
+"challenge.before" = "Challenge 전";
+"challenge.before.value" = "현재 · 금요일 오후 6:30";
+"challenge.after" = "Challenge 후";
+"challenge.after.value" = "유지 · 변경 없음";
 "challenge.demo.disclosure" = "이 둘러보기는 결정론적 데모 데이터이며 실제 모델 결과가 아닙니다.";
 "privacy.pledge" = "명시적으로 제한된 클라우드 합성을 선택하기 전까지 기억은 기기에 남습니다.";
 "action.reset" = "데모 초기화";

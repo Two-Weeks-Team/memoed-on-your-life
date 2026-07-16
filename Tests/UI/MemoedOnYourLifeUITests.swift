@@ -22,10 +22,14 @@ final class MemoedOnYourLifeUITests: XCTestCase {
             app.descendants(matching: .any)["answer-origin"].waitForExistence(timeout: 3),
             "Every rendered answer must disclose whether synthesis ran on-device or in the cloud."
         )
+        let why = app.descendants(matching: .any)["why-current"]
+        scrollUntilVisible(why, in: app)
+        XCTAssertTrue(why.exists)
         attachScreenshot(of: app, named: "02-answer")
 
         let exactSource = app.buttons["source-corrected-invitation"]
-        XCTAssertTrue(exactSource.waitForExistence(timeout: 3))
+        scrollUntilVisible(exactSource, in: app)
+        XCTAssertTrue(exactSource.exists)
         exactSource.tap()
         XCTAssertTrue(
             app.descendants(matching: .any)["source-detail"].waitForExistence(timeout: 3)
@@ -37,13 +41,53 @@ final class MemoedOnYourLifeUITests: XCTestCase {
         done.tap()
 
         let challenge = app.buttons["run-challenge"]
-        XCTAssertTrue(challenge.waitForExistence(timeout: 3))
+        scrollUntilVisible(challenge, in: app)
+        XCTAssertTrue(challenge.exists)
         challenge.tap()
 
         XCTAssertTrue(
             app.descendants(matching: .any)["challenge-result"].waitForExistence(timeout: 5)
         )
+        XCTAssertTrue(app.descendants(matching: .any)["challenge-comparison"].exists)
+        let privacyPledge = app.staticTexts["privacy-pledge"]
+        scrollUntilVisible(privacyPledge, in: app)
+        XCTAssertTrue(privacyPledge.exists)
+        let tabBar = app.tabBars.firstMatch
+        XCTAssertTrue(tabBar.exists)
+        XCTAssertLessThanOrEqual(
+            privacyPledge.frame.maxY,
+            tabBar.frame.minY - 4,
+            "The floating tab bar must not cover the privacy pledge."
+        )
         attachScreenshot(of: app, named: "04-challenged")
+    }
+
+    func testEnglishAccessibilityXXXLKeepsWhyAndChallengeReachable() {
+        let app = XCUIApplication()
+        app.launchArguments = [
+            "--demo-challenged",
+            "-AppleLanguages", "(en)",
+            "-AppleLocale", "en_US",
+            "-UIPreferredContentSizeCategoryName",
+            "UICTContentSizeCategoryAccessibilityExtraExtraExtraLarge"
+        ]
+        app.launch()
+
+        XCTAssertTrue(app.descendants(matching: .any)["answer-origin"].waitForExistence(timeout: 5))
+        XCTAssertTrue(
+            app.descendants(matching: .any)
+                .matching(NSPredicate(format: "label CONTAINS[c] %@", "On-device result"))
+                .firstMatch.exists
+        )
+
+        let why = app.descendants(matching: .any)["why-current"]
+        scrollUntilVisible(why, in: app)
+        XCTAssertTrue(why.exists)
+
+        let comparison = app.descendants(matching: .any)["challenge-comparison"]
+        scrollUntilVisible(comparison, in: app)
+        XCTAssertTrue(comparison.exists)
+        attachScreenshot(of: app, named: "10-accessibility-xxxl")
     }
 
     func testEvidenceTabExplainsPermissionLightCapture() {
@@ -214,5 +258,11 @@ final class MemoedOnYourLifeUITests: XCTestCase {
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+
+    private func scrollUntilVisible(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0 ..< 6 where !element.exists || !element.isHittable {
+            app.swipeUp()
+        }
     }
 }

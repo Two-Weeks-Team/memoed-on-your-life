@@ -14,6 +14,8 @@
 "answer.prepare" = "Bring a dairy-free cake";
 "answer.changed.title" = "Changed from";
 "answer.changed.value" = "Thursday · 7:00 PM";
+"answer.why.title" = "Why this is current";
+"answer.why.detail" = "The invitation explicitly corrects Thursday to Friday, and the latest audio says to follow that correction. No newer contradiction was found.";
 "sources.title" = "Exact sources";
 "source.invite.title" = "Corrected invitation";
 "source.invite.detail" = "Image crop · correction line";
@@ -37,6 +39,10 @@
 "challenge.step.verify" = "Verifying every evidence link";
 "challenge.progress.label" = "Challenge progress";
 "challenge.result" = "Upheld — the correction is explicit and no newer contradiction was found.";
+"challenge.before" = "Before Challenge";
+"challenge.before.value" = "Current · Friday 6:30 PM";
+"challenge.after" = "After Challenge";
+"challenge.after.value" = "Upheld · no change";
 "challenge.demo.disclosure" = "This walkthrough uses deterministic Demo Data, not a live model result.";
 "privacy.pledge" = "Your memories stay on-device unless you explicitly choose bounded cloud synthesis.";
 "action.reset" = "Reset Demo";

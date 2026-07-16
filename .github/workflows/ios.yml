@@ -82,3 +82,14 @@ jobs:
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             test | xcbeautify
+
+          xcrun simctl ui "iPhone 17" content_size accessibility-extra-extra-extra-large
+          xcrun simctl ui "iPhone 17" increase_contrast enabled
+          xcodebuild \
+            -project MemoedOnYourLife.xcodeproj \
+            -scheme MemoedOnYourLife \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.5' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            -only-testing:MemoedOnYourLifeUITests/MemoedOnYourLifeUITests/testEnglishAccessibilityXXXLKeepsWhyAndChallengeReachable \
+            test | xcbeautify

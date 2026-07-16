@@ -22,7 +22,7 @@ struct HomeView: View {
                         PrivacyPledgeView()
                     }
                     .padding(.horizontal, MemoedTheme.pagePadding)
-                    .padding(.bottom, 32)
+                    .padding(.bottom, 124)
                 }
                 .scrollIndicators(.hidden)
             }
@@ -167,9 +167,28 @@ private struct AnswerView: View {
             SynthesisOriginBadge(origin: .onDevice)
             CurrentAnswerCard()
             ChangedFromCard(openSource: { model.selectedSource = .earlierAudio })
+            WhyCurrentCard()
             SourcesCard(openSource: { model.selectedSource = $0 })
             ChallengeCard(model: model)
         }
+    }
+}
+
+private struct WhyCurrentCard: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label("answer.why.title", systemImage: "checkmark.shield.fill")
+                .font(.headline)
+                .foregroundStyle(.indigo)
+            Text("answer.why.detail")
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cardSurface()
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("why-current")
     }
 }
 
@@ -328,10 +347,13 @@ private struct ChallengeCard: View {
             if let step = model.challengeStep {
                 ChallengeProgressView(step: step)
             } else if model.challengeComplete {
-                Label("challenge.result", systemImage: "checkmark.circle.fill")
-                    .font(.body.weight(.semibold))
-                    .foregroundStyle(.green)
-                    .accessibilityIdentifier("challenge-result")
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("challenge.result", systemImage: "checkmark.circle.fill")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.green)
+                        .accessibilityIdentifier("challenge-result")
+                    ChallengeComparisonView()
+                }
             } else {
                 Button {
                     Task { await model.runChallenge() }
@@ -350,6 +372,46 @@ private struct ChallengeCard: View {
                 .foregroundStyle(.tertiary)
         }
         .cardSurface()
+    }
+}
+
+private struct ChallengeComparisonView: View {
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 10) {
+                ComparisonVerdict(label: "challenge.before", value: "challenge.before.value")
+                Image(systemName: "arrow.right")
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+                ComparisonVerdict(label: "challenge.after", value: "challenge.after.value")
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                ComparisonVerdict(label: "challenge.before", value: "challenge.before.value")
+                Divider()
+                ComparisonVerdict(label: "challenge.after", value: "challenge.after.value")
+            }
+        }
+        .padding(12)
+        .background(Color.green.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("challenge-comparison")
+    }
+}
+
+private struct ComparisonVerdict: View {
+    let label: LocalizedStringKey
+    let value: LocalizedStringKey
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.subheadline.weight(.semibold))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -390,5 +452,6 @@ private struct PrivacyPledgeView: View {
             .foregroundStyle(.secondary)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 4)
+            .accessibilityIdentifier("privacy-pledge")
     }
 }
