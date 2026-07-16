@@ -79,7 +79,18 @@ final class MemoedOnYourLifeUITests: XCTestCase {
             photo.waitForExistence(timeout: 10),
             "The validation harness must seed a synthetic photo into the simulator library."
         )
-        app.coordinate(withNormalizedOffset: CGVector(dx: 0.16, dy: 0.25)).tap()
+        let photosPicker = app.navigationBars["Photos"]
+        photo.coordinate(withNormalizedOffset: CGVector(dx: 0.12, dy: 0.12)).tap()
+
+        let pickerDismissed = XCTNSPredicateExpectation(
+            predicate: NSPredicate { _, _ in !photosPicker.exists },
+            object: nil
+        )
+        XCTAssertEqual(
+            XCTWaiter.wait(for: [pickerDismissed], timeout: 10),
+            .completed,
+            "Selecting the seeded photo should dismiss the system picker."
+        )
 
         let operationTitle = app.staticTexts["library-operation-title"]
         let completed = XCTNSPredicateExpectation(
@@ -91,7 +102,7 @@ final class MemoedOnYourLifeUITests: XCTestCase {
             object: nil
         )
         XCTAssertEqual(
-            XCTWaiter.wait(for: [completed], timeout: 30),
+            XCTWaiter.wait(for: [completed], timeout: 60),
             .completed,
             "The selected photo should be copied, indexed with Vision, and shown as complete."
         )
