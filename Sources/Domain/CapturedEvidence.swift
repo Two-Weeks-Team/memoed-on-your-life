@@ -57,6 +57,8 @@ struct CapturedEvidence: Identifiable, Codable, Hashable, Sendable {
     let id: UUID
     let kind: CapturedEvidenceKind
     let capturedAt: Date
+    var assertedAt: Date?
+    var sourceGroupID: String?
     let originalFilename: String
     let relativePath: String
     let mediaTypeIdentifier: String

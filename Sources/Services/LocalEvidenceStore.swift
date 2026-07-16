@@ -38,7 +38,9 @@ actor LocalEvidenceStore {
         fileExtension: String,
         originalFilename: String,
         mediaTypeIdentifier: String,
-        capturedAt: Date = .now
+        capturedAt: Date = .now,
+        assertedAt: Date? = nil,
+        sourceGroupID: String? = nil
     ) throws -> CapturedEvidence {
         try prepareDirectories()
         let id = UUID()
@@ -52,6 +54,8 @@ actor LocalEvidenceStore {
             id: id,
             kind: kind,
             capturedAt: capturedAt,
+            assertedAt: assertedAt,
+            sourceGroupID: sourceGroupID,
             originalFilename: originalFilename,
             relativePath: filename,
             mediaTypeIdentifier: mediaTypeIdentifier,
@@ -71,7 +75,9 @@ actor LocalEvidenceStore {
         kind: CapturedEvidenceKind,
         originalFilename: String,
         mediaTypeIdentifier: String,
-        capturedAt: Date = .now
+        capturedAt: Date = .now,
+        assertedAt: Date? = nil,
+        sourceGroupID: String? = nil
     ) throws -> CapturedEvidence {
         let data = try Data(contentsOf: sourceURL)
         return try importData(
@@ -80,7 +86,9 @@ actor LocalEvidenceStore {
             fileExtension: sourceURL.pathExtension,
             originalFilename: originalFilename,
             mediaTypeIdentifier: mediaTypeIdentifier,
-            capturedAt: capturedAt
+            capturedAt: capturedAt,
+            assertedAt: assertedAt,
+            sourceGroupID: sourceGroupID
         )
     }
 

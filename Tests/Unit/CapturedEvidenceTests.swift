@@ -22,7 +22,9 @@ final class CapturedEvidenceTests: XCTestCase {
             kind: .photo,
             fileExtension: "jpg",
             originalFilename: "source.jpg",
-            mediaTypeIdentifier: "public.jpeg"
+            mediaTypeIdentifier: "public.jpeg",
+            assertedAt: Date(timeIntervalSince1970: 123),
+            sourceGroupID: "dinner-plan"
         )
 
         var updated = imported
@@ -39,6 +41,8 @@ final class CapturedEvidenceTests: XCTestCase {
         XCTAssertEqual(restored.id, updated.id)
         XCTAssertEqual(restored.kind, updated.kind)
         XCTAssertEqual(restored.state, updated.state)
+        XCTAssertEqual(restored.assertedAt, Date(timeIntervalSince1970: 123))
+        XCTAssertEqual(restored.sourceGroupID, "dinner-plan")
         XCTAssertEqual(restored.ocrBlocks, updated.ocrBlocks)
         XCTAssertEqual(
             restored.capturedAt.timeIntervalSince1970,
@@ -46,6 +50,32 @@ final class CapturedEvidenceTests: XCTestCase {
             accuracy: 0.001
         )
         XCTAssertEqual(reloadedData, Data("photo-bytes".utf8))
+    }
+
+    func testLegacyRecordWithoutSemanticMetadataStillDecodes() throws {
+        let data = Data(
+            """
+            {
+              "capturedAt" : 123000,
+              "failureCode" : null,
+              "id" : "43C45ED8-66E2-4FE5-8849-E79C6A86A406",
+              "kind" : "photo",
+              "mediaTypeIdentifier" : "public.jpeg",
+              "ocrBlocks" : [],
+              "originalFilename" : "source.jpg",
+              "relativePath" : "source.jpg",
+              "state" : "queued",
+              "transcriptSpans" : []
+            }
+            """.utf8
+        )
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .millisecondsSince1970
+
+        let decoded = try decoder.decode(CapturedEvidence.self, from: data)
+
+        XCTAssertNil(decoded.assertedAt)
+        XCTAssertNil(decoded.sourceGroupID)
     }
 
     func testIndexerReplacesResultsInsteadOfDuplicatingThem() async throws {

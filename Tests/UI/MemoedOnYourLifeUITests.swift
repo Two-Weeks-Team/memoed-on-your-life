@@ -56,7 +56,11 @@ final class MemoedOnYourLifeUITests: XCTestCase {
     func testSimulatorImportsPhotoThroughSystemPicker() throws {
 #if targetEnvironment(simulator)
         let app = XCUIApplication()
-        app.launchArguments = ["--evidence-tab"]
+        app.launchArguments = [
+            "--evidence-tab",
+            "-AppleLanguages", "(en)",
+            "-AppleLocale", "en_US"
+        ]
         app.launch()
 
         let importPhoto = app.buttons["import-photo"]

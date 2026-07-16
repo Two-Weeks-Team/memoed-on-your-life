@@ -21,6 +21,10 @@ final class HomeModel {
 
     var state: State = .ready
     var selectedSource: DemoSource?
+    private(set) var defaultResult: DemoInvestigationResult?
+    private(set) var challengePacket: EvidencePacket?
+
+    private let investigation = DemoInvestigationEngine()
 
     var showsAnswer: Bool {
         state != .ready
@@ -36,15 +40,28 @@ final class HomeModel {
     }
 
     func loadDemo() {
-        state = .answer
+        let result = investigation.evaluateDefault()
+        defaultResult = result
+        challengePacket = nil
+        state = result.dinner.verdict == .current
+            && result.preparation.verdict == .current
+            ? .answer
+            : .ready
     }
 
     func loadChallengedDemo() {
+        loadDemo()
+        guard let defaultResult else { return }
+        challengePacket = investigation.evaluateChallenge(
+            excluding: defaultResult.defaultPacket.allowedEvidenceIDs
+        )
         state = .challenged
     }
 
     func reset() {
         selectedSource = nil
+        defaultResult = nil
+        challengePacket = nil
         state = .ready
     }
 
@@ -56,6 +73,10 @@ final class HomeModel {
             try? await Task.sleep(for: .milliseconds(550))
         }
         guard !Task.isCancelled else { return }
+        guard let defaultResult else { return }
+        challengePacket = investigation.evaluateChallenge(
+            excluding: defaultResult.defaultPacket.allowedEvidenceIDs
+        )
         state = .challenged
     }
 }

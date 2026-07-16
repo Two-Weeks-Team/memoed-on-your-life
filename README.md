@@ -13,7 +13,7 @@ A search result can find an old plan. A summary can confidently repeat it. Memoe
 
 ## Current build
 
-The current build includes a bilingual, accessible Demo Data walkthrough plus local photo and audio evidence capture. Selected photos are copied into protected app storage and indexed with Apple Vision. Recorded audio is indexed on-device with `SpeechAnalyzer`, preserving finalized time ranges. Empty or unavailable media is shown as an honest retryable failure instead of a false success.
+The current build includes a bilingual, accessible Demo Data walkthrough plus local photo and audio evidence capture. Selected photos are copied into protected app storage and indexed with Apple Vision. Recorded audio is indexed on-device with `SpeechAnalyzer`, preserving finalized time ranges. A deterministic unified retriever applies independent evidence and character budgets, while the temporal oracle evaluates semantic assertion time, effective time, explicit corrections, conflicts, and missing context without using capture recency as truth. Empty or unavailable media is shown as an honest retryable failure instead of a false success.
 
 Demo Data remains clearly labeled and runs without permissions or network access.
 
