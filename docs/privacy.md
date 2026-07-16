@@ -12,7 +12,8 @@ Memoed is designed around user-selected evidence and least disclosure.
 - A response is accepted only when every non-Unknown claim cites an evidence ID from the exact request packet.
 - Provider responses are size-bounded, schema-validated, and never written to logs by application code.
 - Live mode is disabled unless three independent server gates are nonzero and explicit: enable flag, daily budget, and per-flow budget.
-- Deleting a memory removes its local asset, index, derived evidence, and associated identifiers.
+- Deleting evidence removes its local source file, transcript or OCR index, derived evidence, and associated local identifiers. The action requires destructive confirmation.
+- The relay never persists raw evidence or evidence IDs. Its independent installation-deletion route removes the opaque installation hash, flow identifiers, settled reservations, and rate windows. An in-flight reservation is detached into a server-generated anonymous accounting row until settlement, so no installation identifier remains and cost enforcement cannot be erased.
 - Demo Data is synthetic and clearly labeled.
 
 `store: false` is a request-level setting, not a claim of Zero Data Retention. Operators must separately verify provider retention eligibility and deployment-region requirements before enabling live synthesis.

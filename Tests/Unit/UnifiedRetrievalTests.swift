@@ -179,6 +179,29 @@ final class UnifiedRetrievalTests: XCTestCase {
         )
     }
 
+    func testHeroRetrievalAndChallengeRemainWithinAnInteractiveCPUEnvelope() {
+        let engine = DemoInvestigationEngine()
+        let clock = ContinuousClock()
+        var lastChallengeCount = 0
+
+        let duration = clock.measure {
+            for _ in 0 ..< 500 {
+                let result = engine.evaluateDefault()
+                let challenge = engine.evaluateChallenge(
+                    excluding: result.defaultPacket.allowedEvidenceIDs
+                )
+                lastChallengeCount = challenge.items.count
+            }
+        }
+
+        XCTAssertGreaterThan(lastChallengeCount, 0)
+        XCTAssertLessThan(
+            duration,
+            .seconds(3),
+            "Five hundred local retrieval and Challenge passes must stay inside a generous interactive CPU envelope."
+        )
+    }
+
     private func document(
         id: String,
         excerpt: String,

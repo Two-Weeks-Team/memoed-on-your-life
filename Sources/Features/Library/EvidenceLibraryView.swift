@@ -6,6 +6,7 @@ import UIKit
 struct EvidenceLibraryView: View {
     @Bindable var model: EvidenceLibraryModel
     @State private var selectedPhoto: PhotosPickerItem?
+    @State private var pendingDeletion: CapturedEvidence?
 
     var body: some View {
         NavigationStack {
@@ -24,6 +25,23 @@ struct EvidenceLibraryView: View {
             .onChange(of: selectedPhoto) { _, item in
                 guard let item else { return }
                 Task { await importPhoto(item) }
+            }
+            .confirmationDialog(
+                "library.delete.confirmation.title",
+                isPresented: Binding(
+                    get: { pendingDeletion != nil },
+                    set: { if !$0 { pendingDeletion = nil } }
+                ),
+                titleVisibility: .visible
+            ) {
+                Button("library.delete", role: .destructive) {
+                    guard let asset = pendingDeletion else { return }
+                    pendingDeletion = nil
+                    Task { await model.delete(asset) }
+                }
+                Button("action.cancel", role: .cancel) { pendingDeletion = nil }
+            } message: {
+                Text("library.delete.confirmation.message")
             }
         }
     }
@@ -123,8 +141,11 @@ struct EvidenceLibraryView: View {
                             }
                         }
                         Button("library.delete", systemImage: "trash", role: .destructive) {
-                            Task { await model.delete(asset) }
+                            pendingDeletion = asset
                         }
+                    }
+                    .accessibilityAction(named: Text("library.delete")) {
+                        pendingDeletion = asset
                     }
                 }
             }

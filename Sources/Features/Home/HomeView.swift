@@ -75,7 +75,7 @@ private struct HeaderView: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("home.eyebrow")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                         .textCase(.uppercase)
                     Text("home.hero.title")
                         .font(.largeTitle.bold())
@@ -125,7 +125,7 @@ private struct EmptyJourneyView: View {
 
             Text("demo.disclosure")
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
         }
         .cardSurface()
     }
@@ -179,15 +179,16 @@ private struct WhyCurrentCard: View {
         VStack(alignment: .leading, spacing: 10) {
             Label("answer.why.title", systemImage: "checkmark.shield.fill")
                 .font(.headline)
-                .foregroundStyle(.indigo)
+                .foregroundStyle(.primary)
+                .accessibilityHeading(.h2)
             Text("answer.why.detail")
-                .font(.body)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+                .font(.body.weight(.medium))
+                .foregroundStyle(Color(.label))
+                .accessibilityIdentifier("why-current-detail")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardSurface()
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("why-current")
     }
 }
@@ -198,7 +199,7 @@ private struct SynthesisOriginBadge: View {
     var body: some View {
         Label(LocalizedStringKey(origin.localizationKey), systemImage: "iphone.gen3.radiowaves.left.and.right")
             .font(.caption.weight(.semibold))
-            .foregroundStyle(.indigo)
+            .foregroundStyle(.primary)
             .padding(.horizontal, 11)
             .padding(.vertical, 7)
             .background(Color.indigo.opacity(0.1), in: Capsule())
@@ -213,11 +214,11 @@ private struct CurrentAnswerCard: View {
             HStack {
                 Label("answer.current", systemImage: "checkmark.seal.fill")
                     .font(.headline)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.primary)
                 Spacer()
                 Text("demo.badge.short")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.primary)
             }
 
             Text("answer.dinner")
@@ -250,11 +251,11 @@ private struct ChangedFromCard: View {
                 VStack(alignment: .leading, spacing: 3) {
                     Text("answer.changed.title")
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                     Text("answer.changed.value")
                         .font(.headline)
                         .strikethrough()
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
@@ -265,6 +266,7 @@ private struct ChangedFromCard: View {
         }
         .buttonStyle(.plain)
         .cardSurface()
+        .accessibilityIdentifier("changed-from")
         .accessibilityHint(Text("source.open.hint"))
     }
 }
@@ -276,6 +278,7 @@ private struct SourcesCard: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("sources.title")
                 .font(.headline)
+                .accessibilityIdentifier("sources-title")
 
             SourceButton(
                 symbol: "viewfinder.rectangular",
@@ -316,7 +319,7 @@ private struct SourceButton: View {
                         .font(.body.weight(.semibold))
                     Text(detail)
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                 }
                 Spacer()
                 Image(systemName: "arrow.up.right.square")
@@ -341,7 +344,7 @@ private struct ChallengeCard: View {
 
             Text("challenge.subtitle")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
 
             if let step = model.challengeStep {
@@ -350,7 +353,7 @@ private struct ChallengeCard: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Label("challenge.result", systemImage: "checkmark.circle.fill")
                         .font(.body.weight(.semibold))
-                        .foregroundStyle(.green)
+                        .foregroundStyle(.primary)
                         .accessibilityIdentifier("challenge-result")
                     ChallengeComparisonView()
                 }
@@ -368,8 +371,9 @@ private struct ChallengeCard: View {
             }
 
             Text("challenge.demo.disclosure")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
+                .font(.body)
+                .foregroundStyle(.primary)
+                .accessibilityIdentifier("challenge-demo-disclosure")
         }
         .cardSurface()
     }
@@ -377,23 +381,22 @@ private struct ChallengeCard: View {
 
 private struct ChallengeComparisonView: View {
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            HStack(spacing: 10) {
-                ComparisonVerdict(label: "challenge.before", value: "challenge.before.value")
-                Image(systemName: "arrow.right")
-                    .foregroundStyle(.secondary)
-                    .accessibilityHidden(true)
-                ComparisonVerdict(label: "challenge.after", value: "challenge.after.value")
-            }
-            VStack(alignment: .leading, spacing: 8) {
-                ComparisonVerdict(label: "challenge.before", value: "challenge.before.value")
-                Divider()
-                ComparisonVerdict(label: "challenge.after", value: "challenge.after.value")
-            }
+        VStack(alignment: .leading, spacing: 8) {
+            ComparisonVerdict(
+                label: "challenge.before",
+                value: "challenge.before.value",
+                identifier: "challenge-before-value"
+            )
+            Divider()
+            ComparisonVerdict(
+                label: "challenge.after",
+                value: "challenge.after.value",
+                identifier: "challenge-after-value"
+            )
         }
         .padding(12)
         .background(Color.green.opacity(0.08), in: RoundedRectangle(cornerRadius: 12))
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("challenge-comparison")
     }
 }
@@ -401,15 +404,17 @@ private struct ChallengeComparisonView: View {
 private struct ComparisonVerdict: View {
     let label: LocalizedStringKey
     let value: LocalizedStringKey
+    let identifier: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
+                .accessibilityIdentifier("\(identifier)-label")
             Text(value)
                 .font(.subheadline.weight(.semibold))
-                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier(identifier)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -447,11 +452,17 @@ private struct ChallengeProgressView: View {
 
 private struct PrivacyPledgeView: View {
     var body: some View {
-        Label("privacy.pledge", systemImage: "lock.shield")
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
-            .accessibilityIdentifier("privacy-pledge")
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "lock.shield")
+                .font(.body)
+                .accessibilityHidden(true)
+            Text("privacy.pledge")
+                .font(.body)
+                .foregroundStyle(.primary)
+                .layoutPriority(1)
+                .accessibilityIdentifier("privacy-pledge")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 4)
     }
 }

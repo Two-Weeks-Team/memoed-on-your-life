@@ -2,6 +2,8 @@
 
 This Cloudflare Worker is the only component permitted to hold an OpenAI credential. The iOS app sends a bounded evidence packet to `/v1/synthesize` and accepts only a versioned, evidence-bound response for `gpt-5.4-mini`.
 
+`DELETE /v1/installations/current` independently removes the caller's hashed installation identifier, flow identifiers, reservations, and rate windows. It remains available when live synthesis is disabled, retains only anonymous aggregate spend already incurred, and never contacts OpenAI.
+
 ## Safe local verification
 
 Node.js 24 is the CI baseline. All dependencies are exactly pinned in `package-lock.json`.
@@ -37,6 +39,7 @@ Any closed gate returns `503 live_api_disabled` before the Worker reads `OPENAI_
 - Response body: at most 128 KiB
 - Claim integrity: every non-Unknown claim must cite an ID in the request packet
 - Challenge: requires a structured prior judgment and an independent counterevidence packet
+- Privacy deletion: an empty `204` confirms removal of installation-linked relay identifiers
 
 The implementation follows the official [GPT-5.4 mini model contract](https://developers.openai.com/api/docs/models/gpt-5.4-mini), [Structured Outputs guide](https://developers.openai.com/api/docs/guides/structured-outputs), [Cloudflare Workers best practices](https://developers.cloudflare.com/workers/best-practices/workers-best-practices/), and [Workers Vitest integration](https://developers.cloudflare.com/workers/testing/vitest-integration/write-your-first-test/).
 

@@ -63,6 +63,9 @@
 "library.kind.audio" = "오디오 근거";
 "library.retry" = "색인 다시 시도";
 "library.delete" = "삭제";
+"library.delete.confirmation.title" = "이 근거를 삭제할까요?";
+"library.delete.confirmation.message" = "원본 파일, 파생된 전사 또는 텍스트, 로컬 식별자가 영구적으로 삭제됩니다.";
+"action.cancel" = "취소";
 "library.status.idle" = "준비됨";
 "library.status.idle.detail" = "항목 하나를 선택해 시작하세요.";
 "library.status.importing" = "선택한 사진 복사 중";

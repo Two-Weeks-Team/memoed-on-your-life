@@ -63,6 +63,9 @@
 "library.kind.audio" = "Audio evidence";
 "library.retry" = "Retry indexing";
 "library.delete" = "Delete";
+"library.delete.confirmation.title" = "Delete this evidence?";
+"library.delete.confirmation.message" = "The original file, derived transcript or text, and its local identifiers will be permanently removed.";
+"action.cancel" = "Cancel";
 "library.status.idle" = "Ready";
 "library.status.idle.detail" = "Choose one item to begin.";
 "library.status.importing" = "Copying selected photo";

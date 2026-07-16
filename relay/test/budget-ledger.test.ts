@@ -31,6 +31,49 @@ describe("atomic budget ledger", () => {
     expect(blocked.code).toBe("circuit_open");
     expect(blocked.openUntilUnixMilliseconds).toBeGreaterThan(now);
   });
+
+  it("purges installation-linked flow, reservation, and rate identifiers without erasing aggregate spend", async () => {
+    const ledger = env.BUDGET_LEDGER.getByName("privacy-purge");
+    const request = reservation("privacy", 1_000_000, 1_000_000);
+    const accepted = await ledger.reserve(request);
+    expect(accepted.accepted).toBe(true);
+    expect(await ledger.settle("privacy", 9_000, "success", request.nowUnixMilliseconds)).toBe(true);
+
+    const deleted = await ledger.purgeInstallation("a".repeat(64));
+    expect(deleted).toEqual({ reservations: 1, flows: 1, rateWindows: 1 });
+    expect(await ledger.settle("privacy", 9_000, "success", request.nowUnixMilliseconds)).toBe(false);
+
+    const replacement = await ledger.reserve({
+      ...reservation("privacy-replacement", 9_000, 9_000),
+      installationHash: "b".repeat(64),
+      flowID: "replacement_flow",
+    });
+    expect(replacement).toMatchObject({ accepted: false, code: "daily_budget" });
+  });
+
+  it("anonymizes an in-flight reservation while preserving settlement and the global cost ceiling", async () => {
+    const ledger = env.BUDGET_LEDGER.getByName("privacy-purge-reserved");
+    const accepted = await ledger.reserve(reservation("reserved", 18_000, 18_000));
+    expect(accepted.accepted).toBe(true);
+
+    const deleted = await ledger.purgeInstallation("a".repeat(64));
+    expect(deleted).toEqual({ reservations: 1, flows: 1, rateWindows: 1 });
+
+    const replacement = await ledger.reserve({
+      ...reservation("after-purge", 18_000, 18_000),
+      installationHash: "b".repeat(64),
+      flowID: "after_purge_flow",
+    });
+    expect(replacement).toMatchObject({ accepted: false, code: "daily_budget" });
+    expect(await ledger.settle("reserved", 9_000, "success", 1_800_000_000_100)).toBe(true);
+
+    const afterSettlement = await ledger.reserve({
+      ...reservation("after-settlement", 27_000, 18_000),
+      installationHash: "b".repeat(64),
+      flowID: "after_settlement_flow",
+    });
+    expect(afterSettlement.accepted).toBe(true);
+  });
 });
 
 function reservation(
@@ -41,8 +84,9 @@ function reservation(
 ) {
   return {
     reservationID: id,
+    dateKey: "2027-01-15",
     flowID: "flow_fixture_001",
-    installationHash: "hash_fixture_001",
+    installationHash: "a".repeat(64),
     worstCaseMicroUSD: 18_000,
     dailyBudgetMicroUSD,
     flowBudgetMicroUSD,

@@ -28,4 +28,24 @@ describe("Worker fail-closed routes", () => {
     expect(response.status).toBe(503);
     expect(await response.json()).toEqual({ error: { code: "live_api_disabled" } });
   });
+
+  it("deletes an installation identity even while live synthesis is disabled", async () => {
+    const response = await exports.default.fetch(
+      new Request("https://relay.test/v1/installations/current", {
+        method: "DELETE",
+        headers: { "x-memoed-installation": "fixture_installation_001" },
+      }),
+    );
+    expect(response.status).toBe(204);
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(await response.text()).toBe("");
+  });
+
+  it("rejects an unauthenticated installation deletion", async () => {
+    const response = await exports.default.fetch(
+      new Request("https://relay.test/v1/installations/current", { method: "DELETE" }),
+    );
+    expect(response.status).toBe(401);
+    expect(await response.json()).toEqual({ error: { code: "installation_required" } });
+  });
 });

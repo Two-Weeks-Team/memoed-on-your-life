@@ -149,6 +149,34 @@ final class RelaySynthesisClientTests: XCTestCase {
         )
     }
 
+    func testClientDeletesOnlyItsOpaqueInstallationIdentityWithoutAProviderCredential() async throws {
+        let transport = FixtureRelayTransport(.response(status: 204, data: Data()))
+        let client = try makeClient(transport: transport)
+
+        try await client.deleteInstallationIdentity()
+
+        let capturedRequest = await transport.lastRequest
+        let request = try XCTUnwrap(capturedRequest)
+        XCTAssertEqual(request.httpMethod, "DELETE")
+        XCTAssertEqual(request.url?.path, "/v1/installations/current")
+        XCTAssertEqual(
+            request.value(forHTTPHeaderField: "X-Memoed-Installation"),
+            "fixture_installation_001"
+        )
+        XCTAssertNil(request.value(forHTTPHeaderField: "Authorization"))
+        XCTAssertNil(request.httpBody)
+    }
+
+    func testClientFailsClosedWhenInstallationDeletionIsNotConfirmed() async throws {
+        let transport = FixtureRelayTransport(.response(status: 200, data: Data("{}".utf8)))
+        do {
+            try await makeClient(transport: transport).deleteInstallationIdentity()
+            XCTFail("Only an empty 204 response confirms deletion.")
+        } catch let error as RelayClientError {
+            XCTAssertEqual(error, .invalidResponse)
+        }
+    }
+
     func testChallengeRequiresStructuredPriorJudgment() throws {
         XCTAssertThrowsError(
             try RelaySynthesisRequest(

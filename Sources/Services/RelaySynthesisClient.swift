@@ -239,7 +239,8 @@ protocol RelaySynthesisProviding: Sendable {
 }
 
 struct RelaySynthesisClient: RelaySynthesisProviding, Sendable {
-    private let endpoint: URL
+    private let synthesisEndpoint: URL
+    private let installationDeletionEndpoint: URL
     private let installationID: String
     private let flowID: String
     private let transport: any RelayHTTPTransport
@@ -262,7 +263,10 @@ struct RelaySynthesisClient: RelaySynthesisProviding, Sendable {
               ) != nil else {
             throw RelayClientError.invalidRequest
         }
-        endpoint = relayBaseURL.appendingPathComponent("v1/synthesize")
+        synthesisEndpoint = relayBaseURL.appendingPathComponent("v1/synthesize")
+        installationDeletionEndpoint = relayBaseURL.appendingPathComponent(
+            "v1/installations/current"
+        )
         self.installationID = installationID
         self.flowID = flowID
         self.transport = transport
@@ -283,7 +287,7 @@ struct RelaySynthesisClient: RelaySynthesisProviding, Sendable {
         )
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
-        var request = URLRequest(url: endpoint, timeoutInterval: 20)
+        var request = URLRequest(url: synthesisEndpoint, timeoutInterval: 20)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(installationID, forHTTPHeaderField: "X-Memoed-Installation")
@@ -317,6 +321,30 @@ struct RelaySynthesisClient: RelaySynthesisProviding, Sendable {
                 throw RelayClientError.liveAPIDisabled
             }
             throw RelayClientError.upstreamUnavailable
+        case 500 ... 599:
+            throw RelayClientError.upstreamUnavailable
+        default:
+            throw RelayClientError.invalidResponse
+        }
+    }
+
+    func deleteInstallationIdentity() async throws {
+        var request = URLRequest(url: installationDeletionEndpoint, timeoutInterval: 20)
+        request.httpMethod = "DELETE"
+        request.setValue(installationID, forHTTPHeaderField: "X-Memoed-Installation")
+        let response: RelayHTTPResponse
+        do {
+            response = try await transport.send(request)
+        } catch {
+            throw RelayClientError.transport
+        }
+        switch response.statusCode {
+        case 204:
+            guard response.data.isEmpty else { throw RelayClientError.invalidResponse }
+        case 401, 403:
+            throw RelayClientError.unauthorized
+        case 429:
+            throw RelayClientError.rateLimited
         case 500 ... 599:
             throw RelayClientError.upstreamUnavailable
         default:

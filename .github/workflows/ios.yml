@@ -22,6 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
+      - name: Verify public repository cleanliness
+        working-directory: .
+        run: bash scripts/repository-cleanliness.sh
+
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
@@ -70,6 +74,9 @@ jobs:
         run: |
           xcrun simctl boot "iPhone 17" || true
           xcrun simctl bootstatus "iPhone 17" -b
+          xcrun simctl ui "iPhone 17" content_size large
+          xcrun simctl ui "iPhone 17" increase_contrast disabled
+          xcrun simctl ui "iPhone 17" appearance light
           xcrun simctl addmedia "iPhone 17" docs/evidence/phase2/iphone13-timed-transcript.png
 
       - name: Build and test
@@ -92,4 +99,16 @@ jobs:
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             -only-testing:MemoedOnYourLifeUITests/MemoedOnYourLifeUITests/testEnglishAccessibilityXXXLKeepsWhyAndChallengeReachable \
+            -only-testing:MemoedOnYourLifeUITests/MemoedOnYourLifeUITests/testChallengedHomePassesVisualAccessibilityAuditAtXXXL \
             test | xcbeautify
+
+      - name: Build release candidate without signing
+        run: |
+          xcodebuild \
+            -project MemoedOnYourLife.xcodeproj \
+            -scheme MemoedOnYourLife \
+            -configuration Release \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/ReleaseDerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            build | xcbeautify

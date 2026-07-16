@@ -129,6 +129,42 @@ final class CapturedEvidenceTests: XCTestCase {
         XCTAssertEqual(restoredData, sourceData)
     }
 
+    func testDeleteRemovesTheSourceDerivedIndexAndAssociatedIdentifiers() async throws {
+        let root = temporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = LocalEvidenceStore(rootURL: root)
+        let imported = try await store.importData(
+            Data("sensitive-source".utf8),
+            kind: .photo,
+            fileExtension: "jpg",
+            originalFilename: "private-invitation.jpg",
+            mediaTypeIdentifier: "public.jpeg",
+            assertedAt: Date(timeIntervalSince1970: 123),
+            sourceGroupID: "private-dinner-plan"
+        )
+        var indexed = imported
+        indexed.state = .ready
+        indexed.ocrBlocks = [Self.block]
+        try await store.update(indexed)
+        let sourceURL = await store.assetURL(for: indexed)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: sourceURL.path))
+
+        try await store.delete(indexed)
+
+        XCTAssertFalse(FileManager.default.fileExists(atPath: sourceURL.path))
+        let deletedAsset = try await store.evidence(id: indexed.id)
+        XCTAssertNil(deletedAsset)
+        let remainingAssets = try await store.loadAssets()
+        XCTAssertTrue(remainingAssets.isEmpty)
+        let manifest = try Data(
+            contentsOf: root.appending(path: "manifest.json", directoryHint: .notDirectory)
+        )
+        let manifestText = try XCTUnwrap(String(data: manifest, encoding: .utf8))
+        XCTAssertFalse(manifestText.contains(indexed.id.uuidString))
+        XCTAssertFalse(manifestText.contains("private-dinner-plan"))
+        XCTAssertFalse(manifestText.contains(Self.block.text))
+    }
+
     func testAppleVisionReadsSyntheticInvitationWithNormalizedRegions() async throws {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 900, height: 300))
         let image = renderer.image { context in

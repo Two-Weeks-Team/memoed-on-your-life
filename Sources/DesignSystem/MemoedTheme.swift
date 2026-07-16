@@ -17,7 +17,7 @@ struct CardSurface: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding(MemoedTheme.contentSpacing)
-            .background(.regularMaterial, in: RoundedRectangle(
+            .background(Color(.secondarySystemGroupedBackground), in: RoundedRectangle(
                 cornerRadius: MemoedTheme.cornerRadius,
                 style: .continuous
             ))
