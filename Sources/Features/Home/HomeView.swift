@@ -164,11 +164,27 @@ private struct AnswerView: View {
 
     var body: some View {
         VStack(spacing: MemoedTheme.contentSpacing) {
+            SynthesisOriginBadge(origin: .onDevice)
             CurrentAnswerCard()
             ChangedFromCard(openSource: { model.selectedSource = .earlierAudio })
             SourcesCard(openSource: { model.selectedSource = $0 })
             ChallengeCard(model: model)
         }
+    }
+}
+
+private struct SynthesisOriginBadge: View {
+    let origin: SynthesisOrigin
+
+    var body: some View {
+        Label(LocalizedStringKey(origin.localizationKey), systemImage: "iphone.gen3.radiowaves.left.and.right")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.indigo)
+            .padding(.horizontal, 11)
+            .padding(.vertical, 7)
+            .background(Color.indigo.opacity(0.1), in: Capsule())
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityIdentifier("answer-origin")
     }
 }
 

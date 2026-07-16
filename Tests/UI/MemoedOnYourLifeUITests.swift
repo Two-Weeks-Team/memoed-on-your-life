@@ -18,6 +18,10 @@ final class MemoedOnYourLifeUITests: XCTestCase {
         XCTAssertTrue(
             app.descendants(matching: .any)["current-answer"].waitForExistence(timeout: 3)
         )
+        XCTAssertTrue(
+            app.descendants(matching: .any)["answer-origin"].waitForExistence(timeout: 3),
+            "Every rendered answer must disclose whether synthesis ran on-device or in the cloud."
+        )
         attachScreenshot(of: app, named: "02-answer")
 
         let exactSource = app.buttons["source-corrected-invitation"]

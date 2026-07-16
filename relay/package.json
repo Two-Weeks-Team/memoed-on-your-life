@@ -1,0 +1,19 @@
+{
+  "name": "memoed-on-your-life-relay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit && wrangler types --env-file .dev.vars.example --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dry-run": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.18.5",
+    "@cloudflare/workers-types": "5.20260716.1",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10",
+    "wrangler": "4.111.0"
+  }
+}

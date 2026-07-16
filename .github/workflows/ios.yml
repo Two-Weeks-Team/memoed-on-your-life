@@ -13,6 +13,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  relay-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: relay
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: relay/package-lock.json
+
+      - name: Install pinned relay dependencies
+        run: npm ci
+
+      - name: Check relay types and generated bindings
+        run: npm run check
+
+      - name: Test relay contracts and budget ledger
+        run: npm test
+
+      - name: Verify deploy bundle without deployment
+        run: npm run dry-run
+
   build-and-test:
     runs-on: macos-26
     timeout-minutes: 20

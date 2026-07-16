@@ -86,3 +86,5 @@
 "library.detail.photo.preview" = "가져온 원본 사진";
 "library.detail.vision" = "Vision 문자 영역";
 "library.detail.speech" = "Speech 전사 시간 구간";
+"synthesis.origin.on_device" = "기기 내 결과";
+"synthesis.origin.cloud" = "클라우드 합성 · GPT-5.4 mini";

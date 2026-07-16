@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "memoed-on-your-life-relay",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-16",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "OPENAI_LIVE_API_ENABLED": "false",
+    "OPENAI_DAILY_BUDGET_MICRO_USD": "0",
+    "OPENAI_FLOW_BUDGET_MICRO_USD": "0",
+    "OPENAI_MAX_INPUT_TOKENS": "12000",
+    "OPENAI_MAX_OUTPUT_TOKENS": "2000",
+    "OPENAI_TIMEOUT_MS": "20000",
+    "OPENAI_MAX_RETRIES": "1"
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "BUDGET_LEDGER",
+        "class_name": "BudgetLedger"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["BudgetLedger"]
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

@@ -86,3 +86,5 @@
 "library.detail.photo.preview" = "Imported source photo";
 "library.detail.vision" = "Vision text regions";
 "library.detail.speech" = "Speech transcript intervals";
+"synthesis.origin.on_device" = "On-device result";
+"synthesis.origin.cloud" = "Cloud synthesis · GPT-5.4 mini";

@@ -1,0 +1,2 @@
+# Local Wrangler secret names only. Copy to .dev.vars and fill locally.
+OPENAI_API_KEY=

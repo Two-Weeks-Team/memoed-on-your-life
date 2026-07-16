@@ -19,6 +19,8 @@ Demo Data remains clearly labeled and runs without permissions or network access
 
 The production synthesis contract targets only `gpt-5.4-mini` through a server-side Responses API relay. Live cloud behavior remains disabled until its privacy, evidence integrity, and hard cost limits are verified. No API key is bundled in the iOS app.
 
+The current walkthrough visibly discloses **On-device result**. The synthesis domain reserves a distinct **Cloud synthesis · GPT-5.4 mini** origin for a future enabled relay UI; live cloud behavior is not wired into the release flow.
+
 ## Hero walkthrough
 
 1. An earlier audio note says dinner is Thursday at 7:00 PM.
@@ -53,6 +55,18 @@ xcodebuild \
 ```
 
 The committed Xcode project is generated from `project.yml`. CI regenerates it and fails if the result differs.
+
+The fail-closed relay can be verified without a credential, deployment, or provider call:
+
+```bash
+cd relay
+npm ci
+npm run check
+npm test
+npm run dry-run
+```
+
+Live mode and both server-side spend budgets default to zero. See [Relay contract](relay/README.md).
 
 ## Build Week use of OpenAI
 
