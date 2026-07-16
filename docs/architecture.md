@@ -1,0 +1,24 @@
+# Architecture
+
+Memoed uses explicit boundaries so capture and evidence remain useful even when perception or cloud synthesis is unavailable.
+
+## 1. Capture and storage
+
+Owns imported/captured assets, immutable provenance, lifecycle, deletion, and local persistence. It does not infer what the evidence means.
+
+## 2. Perception and indexing
+
+Apple Speech produces timestamped transcript spans. Apple Vision produces OCR observations and normalized crop coordinates. Adapters report unsupported languages, unavailable assets, partial results, and cancellation without inventing output.
+
+## 3. Retrieval and answer synthesis
+
+A deterministic retriever creates bounded evidence packets. A temporal oracle models assertion time, effective time, explicit correction relationships, conflicts, and missing facts. Answer synthesis can render the local result or send the same bounded packet to a server relay for `gpt-5.4-mini` structured output.
+
+## Invariants
+
+- Later capture time alone never makes a claim current.
+- Every material claim points to an allowed evidence ID.
+- Challenge receives an independent counterevidence packet, not the first answer's prose.
+- Raw audio and full photos are not model payloads.
+- Provider failure never overwrites durable local evidence.
+- Demo Data and local fixtures are visibly identified.
