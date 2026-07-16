@@ -6,9 +6,13 @@ Memoed uses explicit boundaries so capture and evidence remain useful even when 
 
 Owns imported/captured assets, immutable provenance, lifecycle, deletion, and local persistence. It does not infer what the evidence means.
 
+The iOS implementation uses the privacy-preserving Photos picker for explicit photo selection and AVAudioRecorder for user-initiated audio capture. Media and the versioned JSON manifest are stored under Application Support with data protection enabled. Interrupted perception never deletes the source, so indexing can be retried idempotently.
+
 ## 2. Perception and indexing
 
 Apple Speech produces timestamped transcript spans. Apple Vision produces OCR observations and normalized crop coordinates. Adapters report unsupported languages, unavailable assets, partial results, and cancellation without inventing output.
+
+The Speech adapter uses SpeechAnalyzer with SpeechTranscriber and installs a supported on-device language asset only when the person indexes audio. The Vision adapter uses the Swift RecognizeTextRequest API, preserves image orientation, enables automatic language detection, and stores every recognized block with its normalized source region.
 
 ## 3. Retrieval and answer synthesis
 

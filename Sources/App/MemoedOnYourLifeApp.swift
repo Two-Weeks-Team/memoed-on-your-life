@@ -4,7 +4,7 @@ import SwiftUI
 struct MemoedOnYourLifeApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            RootView()
                 .tint(.indigo)
         }
     }

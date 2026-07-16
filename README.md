@@ -13,7 +13,9 @@ A search result can find an old plan. A summary can confidently repeat it. Memoe
 
 ## Current build
 
-The foundation build includes a bilingual, accessible Demo Data walkthrough and typed boundaries for capture, perception, retrieval, and answer synthesis. Demo Data is clearly labeled and runs without permissions or network access.
+The current build includes a bilingual, accessible Demo Data walkthrough plus local photo and audio evidence capture. Selected photos are copied into protected app storage and indexed with Apple Vision. Recorded audio is indexed on-device with `SpeechAnalyzer`, preserving finalized time ranges. Empty or unavailable media is shown as an honest retryable failure instead of a false success.
+
+Demo Data remains clearly labeled and runs without permissions or network access.
 
 The production synthesis contract targets only `gpt-5.4-mini` through a server-side Responses API relay. Live cloud behavior remains disabled until its privacy, evidence integrity, and hard cost limits are verified. No API key is bundled in the iOS app.
 

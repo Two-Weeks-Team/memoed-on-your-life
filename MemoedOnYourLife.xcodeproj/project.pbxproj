@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0481E13F0BE7B3841E26AF32 /* EvidenceLibraryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39BE54EDCE77C2CE24873E0 /* EvidenceLibraryModel.swift */; };
 		1543BCAE60124F34CEAD1A36 /* ServiceContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88F132E367E5A3FAA496091 /* ServiceContracts.swift */; };
+		22DDE2FF0BA23B58C3AC82AA /* CapturedEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EFB964454A2655AB0ED705 /* CapturedEvidenceTests.swift */; };
 		352726680664580C7CD3EEB0 /* TemporalOracleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8B3DB2A3A41BDD93DABA2 /* TemporalOracleTests.swift */; };
+		3B7317B6818F8A6A806FF630 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727A9123A25462C281137E23 /* RootView.swift */; };
+		3FA0F9710DD0F9FF1A3379BD /* CapturedEvidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489965F6C0219A7F130D61EE /* CapturedEvidence.swift */; };
 		41959849A2C70FA0DBACEE9E /* MemoedTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B49C88F5E14A9031C89CD8 /* MemoedTheme.swift */; };
 		4C15D3F8DDC7B2DA22092064 /* MemoedOnYourLifeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCFB5BF73985FE7A2E7BEB4 /* MemoedOnYourLifeUITests.swift */; };
 		58EEA1FF224603F949D46E7A /* Evidence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF06C4A96659CF9E560FFB /* Evidence.swift */; };
 		7499BD0AD5AED4D3761CAE1C /* TemporalOracle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A2336F0592CB93113883C4 /* TemporalOracle.swift */; };
+		81B82AC09775E9BE07419FF6 /* AudioCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C2C48DD84C5896C84BA57C /* AudioCaptureController.swift */; };
+		82B413E68A0ED30C7952C5D4 /* ApplePerceptionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F57A88C4FEB143CFEB6CEF /* ApplePerceptionServices.swift */; };
 		8B245F414A54EED5EBA8084F /* HomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F65A527A1FC6CBF766895AD /* HomeModel.swift */; };
+		8C232586AA36061C6F3AE389 /* EvidenceLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CFA39E4F64A12D5844B59A /* EvidenceLibraryView.swift */; };
+		BE3542E6AB1D658A60852433 /* LocalEvidenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757DCFDE6CF78F8A351913A5 /* LocalEvidenceStore.swift */; };
 		CCDBBED1F2E92F07CBE9A7B1 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20B326C5F093FC91F98C035 /* HomeView.swift */; };
 		E0509F50A79AEF53B4B82B01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AC063C0C485F0F70D66C4B7A /* Localizable.strings */; };
+		E878FEDB47490C24D20256CE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3715E73A3BE8A7DE0E4F178E /* InfoPlist.strings */; };
 		EF2FEB4258E90B00DFB8D74F /* MemoedOnYourLifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05757B19651E895369B46E9 /* MemoedOnYourLifeApp.swift */; };
 		F265ABF0903373F50D412A2F /* SourceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D205206A94078A2492A954 /* SourceDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -39,9 +48,16 @@
 
 /* Begin PBXFileReference section */
 		3FB8B3DB2A3A41BDD93DABA2 /* TemporalOracleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporalOracleTests.swift; sourceTree = "<group>"; };
+		40C2C48DD84C5896C84BA57C /* AudioCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureController.swift; sourceTree = "<group>"; };
+		43F57A88C4FEB143CFEB6CEF /* ApplePerceptionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePerceptionServices.swift; sourceTree = "<group>"; };
+		489965F6C0219A7F130D61EE /* CapturedEvidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedEvidence.swift; sourceTree = "<group>"; };
+		48EFB964454A2655AB0ED705 /* CapturedEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedEvidenceTests.swift; sourceTree = "<group>"; };
 		4A1BCEF80DE47DCFFD80B07D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		59B49C88F5E14A9031C89CD8 /* MemoedTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoedTheme.swift; sourceTree = "<group>"; };
 		61D205206A94078A2492A954 /* SourceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceDetailView.swift; sourceTree = "<group>"; };
+		727A9123A25462C281137E23 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		757DCFDE6CF78F8A351913A5 /* LocalEvidenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalEvidenceStore.swift; sourceTree = "<group>"; };
+		874550AF96A2F4DC6AF6D0AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D8F8AF0285CDAED21C9B5F9 /* MemoedOnYourLife.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MemoedOnYourLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F65A527A1FC6CBF766895AD /* HomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModel.swift; sourceTree = "<group>"; };
 		91AF06C4A96659CF9E560FFB /* Evidence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Evidence.swift; sourceTree = "<group>"; };
@@ -49,9 +65,12 @@
 		A3F704719BAE4A1A9B0A8219 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B7C9DAC91D73203915EDD7A4 /* MemoedOnYourLifeUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MemoedOnYourLifeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05757B19651E895369B46E9 /* MemoedOnYourLifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoedOnYourLifeApp.swift; sourceTree = "<group>"; };
+		D39BE54EDCE77C2CE24873E0 /* EvidenceLibraryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceLibraryModel.swift; sourceTree = "<group>"; };
 		DCCFB5BF73985FE7A2E7BEB4 /* MemoedOnYourLifeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoedOnYourLifeUITests.swift; sourceTree = "<group>"; };
 		F20B326C5F093FC91F98C035 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F4A2336F0592CB93113883C4 /* TemporalOracle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporalOracle.swift; sourceTree = "<group>"; };
+		F6CFA39E4F64A12D5844B59A /* EvidenceLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvidenceLibraryView.swift; sourceTree = "<group>"; };
+		F8641D6317732D6F540BEB6D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F88F132E367E5A3FAA496091 /* ServiceContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceContracts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +78,7 @@
 		0E3F46E963876F734F24FD7E /* Unit */ = {
 			isa = PBXGroup;
 			children = (
+				48EFB964454A2655AB0ED705 /* CapturedEvidenceTests.swift */,
 				3FB8B3DB2A3A41BDD93DABA2 /* TemporalOracleTests.swift */,
 			);
 			path = Unit;
@@ -89,6 +109,9 @@
 		2F9893011A8DD0D75A562AA1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				43F57A88C4FEB143CFEB6CEF /* ApplePerceptionServices.swift */,
+				40C2C48DD84C5896C84BA57C /* AudioCaptureController.swift */,
+				757DCFDE6CF78F8A351913A5 /* LocalEvidenceStore.swift */,
 				F88F132E367E5A3FAA496091 /* ServiceContracts.swift */,
 			);
 			path = Services;
@@ -115,6 +138,7 @@
 		6D7F9C767FB634C6F29CAF29 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				489965F6C0219A7F130D61EE /* CapturedEvidence.swift */,
 				91AF06C4A96659CF9E560FFB /* Evidence.swift */,
 				F4A2336F0592CB93113883C4 /* TemporalOracle.swift */,
 			);
@@ -125,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				221DD1ED095B1925E8BD262D /* Home */,
+				E0699210E54CCE4F109EEFCD /* Library */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -141,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				D05757B19651E895369B46E9 /* MemoedOnYourLifeApp.swift */,
+				727A9123A25462C281137E23 /* RootView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -158,9 +184,19 @@
 		D669302DD3924E61053D22C9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3715E73A3BE8A7DE0E4F178E /* InfoPlist.strings */,
 				AC063C0C485F0F70D66C4B7A /* Localizable.strings */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		E0699210E54CCE4F109EEFCD /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				D39BE54EDCE77C2CE24873E0 /* EvidenceLibraryModel.swift */,
+				F6CFA39E4F64A12D5844B59A /* EvidenceLibraryView.swift */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 		F5B4AE0D33BE409D28A7E7B1 /* Tests */ = {
@@ -280,6 +316,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E878FEDB47490C24D20256CE /* InfoPlist.strings in Resources */,
 				E0509F50A79AEF53B4B82B01 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,11 +328,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82B413E68A0ED30C7952C5D4 /* ApplePerceptionServices.swift in Sources */,
+				81B82AC09775E9BE07419FF6 /* AudioCaptureController.swift in Sources */,
+				3FA0F9710DD0F9FF1A3379BD /* CapturedEvidence.swift in Sources */,
 				58EEA1FF224603F949D46E7A /* Evidence.swift in Sources */,
+				0481E13F0BE7B3841E26AF32 /* EvidenceLibraryModel.swift in Sources */,
+				8C232586AA36061C6F3AE389 /* EvidenceLibraryView.swift in Sources */,
 				8B245F414A54EED5EBA8084F /* HomeModel.swift in Sources */,
 				CCDBBED1F2E92F07CBE9A7B1 /* HomeView.swift in Sources */,
+				BE3542E6AB1D658A60852433 /* LocalEvidenceStore.swift in Sources */,
 				EF2FEB4258E90B00DFB8D74F /* MemoedOnYourLifeApp.swift in Sources */,
 				41959849A2C70FA0DBACEE9E /* MemoedTheme.swift in Sources */,
+				3B7317B6818F8A6A806FF630 /* RootView.swift in Sources */,
 				1543BCAE60124F34CEAD1A36 /* ServiceContracts.swift in Sources */,
 				F265ABF0903373F50D412A2F /* SourceDetailView.swift in Sources */,
 				7499BD0AD5AED4D3761CAE1C /* TemporalOracle.swift in Sources */,
@@ -306,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22DDE2FF0BA23B58C3AC82AA /* CapturedEvidenceTests.swift in Sources */,
 				352726680664580C7CD3EEB0 /* TemporalOracleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +379,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3715E73A3BE8A7DE0E4F178E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				874550AF96A2F4DC6AF6D0AA /* en */,
+				F8641D6317732D6F540BEB6D /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		AC063C0C485F0F70D66C4B7A /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -372,6 +426,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Memoed;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Memoed uses the microphone only when you choose to record evidence.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -484,6 +539,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Memoed;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Memoed uses the microphone only when you choose to record evidence.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
